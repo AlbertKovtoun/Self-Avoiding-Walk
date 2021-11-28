@@ -18,7 +18,7 @@ export class Camera {
       0.1,
       100
     )
-    this.camera.position.set(2, 1, 4)
+    this.camera.position.set(0, 15, 0)
     scene.add(this.camera)
   }
 
