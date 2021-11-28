@@ -74,9 +74,9 @@ export class Walker {
 
     if (this.checkCollision(nextPosition)) {
       console.log("Collision!!!")
+    } else {
+      this.walkerPoints.push(nextPosition)
     }
-
-    this.walkerPoints.push(nextPosition)
   }
 
   walkDown() {
@@ -92,9 +92,9 @@ export class Walker {
 
     if (this.checkCollision(nextPosition)) {
       console.log("Collision!!!")
+    } else {
+      this.walkerPoints.push(nextPosition)
     }
-
-    this.walkerPoints.push(nextPosition)
   }
 
   walkLeft() {
@@ -110,9 +110,9 @@ export class Walker {
 
     if (this.checkCollision(nextPosition)) {
       console.log("Collision!!!")
+    } else {
+      this.walkerPoints.push(nextPosition)
     }
-
-    this.walkerPoints.push(nextPosition)
   }
 
   walkRight() {
@@ -128,9 +128,9 @@ export class Walker {
 
     if (this.checkCollision(nextPosition)) {
       console.log("Collision!!!")
+    } else {
+      this.walkerPoints.push(nextPosition)
     }
-
-    this.walkerPoints.push(nextPosition)
   }
 
   setRandomDirection() {
@@ -140,7 +140,6 @@ export class Walker {
   checkCollision(nextPosition) {
     for (let i = 0; i < this.walkerPoints.length; i++) {
       if (this.walkerPoints[i].equals(nextPosition)) {
-        // console.log("COLLISION")
         return true
       }
     }
@@ -166,6 +165,6 @@ export class Walker {
       }
 
       this.walkerGeometry.setFromPoints(this.walkerPoints)
-    }, 1000)
+    }, 10000)
   }
 }
