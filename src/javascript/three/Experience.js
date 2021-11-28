@@ -4,6 +4,7 @@ import { Camera } from "./Camera"
 import { Renderer } from "./Renderer"
 import { Sizes } from "./Sizes"
 import { Walker } from "./Walker"
+import { Borders } from "./Borders"
 
 const stats = new Stats()
 stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
@@ -13,8 +14,10 @@ export const canvas = document.querySelector("canvas.webgl")
 
 export const scene = new THREE.Scene()
 
-// const gridHelper = new THREE.GridHelper(10, 10)
-// scene.add(gridHelper)
+const gridHelper = new THREE.GridHelper(10, 10)
+scene.add(gridHelper)
+
+export const borders = new Borders()
 
 export const walker = new Walker()
 

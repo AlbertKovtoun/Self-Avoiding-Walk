@@ -207,6 +207,6 @@ export class Walker {
       }
 
       this.walkerGeometry.setFromPoints(this.walkerPoints)
-    }, 500)
+    }, 50000)
   }
 }
