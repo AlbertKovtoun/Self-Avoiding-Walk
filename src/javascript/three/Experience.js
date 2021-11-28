@@ -8,11 +8,15 @@ export const canvas = document.querySelector("canvas.webgl")
 
 export const scene = new THREE.Scene()
 
-const cube = new THREE.Mesh(
-  new THREE.TorusGeometry(1, 0.3, 20, 40),
-  new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true })
-)
-scene.add(cube)
+// const cube = new THREE.Mesh(
+//   new THREE.BoxGeometry(2, 1, 1, 1, 1, 1),
+//   new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true })
+// )
+// cube.position.set(0, 0, 0)
+// scene.add(cube)
+
+const gridHelper = new THREE.GridHelper(10, 10)
+scene.add(gridHelper)
 
 export const walker = new Walker()
 
@@ -34,7 +38,9 @@ const tick = () => {
   // Render
   renderer.renderer.render(scene, camera.camera)
 
-  window.requestAnimationFrame(tick)
+  setTimeout(() => {
+    window.requestAnimationFrame(tick)
+  }, 1000 / 60)
 }
 
 tick()
