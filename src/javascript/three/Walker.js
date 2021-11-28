@@ -68,8 +68,8 @@ export class Walker {
     //Set next position
     let nextPosition = new THREE.Vector3(
       lastPosition.x,
-      lastPosition.y,
-      lastPosition.z - 1
+      lastPosition.y + 1,
+      lastPosition.z
     )
 
     if (this.checkCollision(nextPosition)) {
@@ -86,8 +86,8 @@ export class Walker {
     //Set next position
     let nextPosition = new THREE.Vector3(
       lastPosition.x,
-      lastPosition.y,
-      lastPosition.z + 1
+      lastPosition.y - 1,
+      lastPosition.z
     )
 
     if (this.checkCollision(nextPosition)) {
@@ -133,8 +133,44 @@ export class Walker {
     }
   }
 
+  walkForward() {
+    //Get last element in array
+    let lastPosition = this.walkerPoints.at(-1)
+
+    //Set next position
+    let nextPosition = new THREE.Vector3(
+      lastPosition.x,
+      lastPosition.y,
+      lastPosition.z - 1
+    )
+
+    if (this.checkCollision(nextPosition)) {
+      console.log("Collision!!!")
+    } else {
+      this.walkerPoints.push(nextPosition)
+    }
+  }
+
+  walkBackward() {
+    //Get last element in array
+    let lastPosition = this.walkerPoints.at(-1)
+
+    //Set next position
+    let nextPosition = new THREE.Vector3(
+      lastPosition.x,
+      lastPosition.y,
+      lastPosition.z + 1
+    )
+
+    if (this.checkCollision(nextPosition)) {
+      console.log("Collision!!!")
+    } else {
+      this.walkerPoints.push(nextPosition)
+    }
+  }
+
   setRandomDirection() {
-    this.randomDirection = Math.round(Math.random() * 3)
+    this.randomDirection = Math.round(Math.random() * 5)
   }
 
   checkCollision(nextPosition) {
@@ -162,9 +198,15 @@ export class Walker {
         case 3:
           this.walkLeft()
           break
+        case 4:
+          this.walkForward()
+          break
+        case 5:
+          this.walkBackward()
+          break
       }
 
       this.walkerGeometry.setFromPoints(this.walkerPoints)
-    }, 10000)
+    }, 500)
   }
 }
