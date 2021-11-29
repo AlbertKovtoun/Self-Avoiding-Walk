@@ -19,7 +19,40 @@ export const scene = new THREE.Scene()
 
 export const borders = new Borders()
 
-export const walker = new Walker()
+const walker1 = new Walker(
+  new THREE.Vector3(0, 0, 0),
+  new THREE.Vector3(0, 0, 0.2),
+  0.2,
+  "red"
+)
+
+const walker2 = new Walker(
+  new THREE.Vector3(-3, 3, 4),
+  new THREE.Vector3(-3, 3, 4.2),
+  0.2,
+  "purple"
+)
+
+const walker3 = new Walker(
+  new THREE.Vector3(-3, 3, -4),
+  new THREE.Vector3(-3, 3, -4.2),
+  0.2,
+  "pink"
+)
+
+const walker4 = new Walker(
+  new THREE.Vector3(4, -1, -4),
+  new THREE.Vector3(4, -1, -4.2),
+  0.2,
+  "blue"
+)
+
+const walker5 = new Walker(
+  new THREE.Vector3(3, 3, 4),
+  new THREE.Vector3(3, 3, 4.2),
+  0.2,
+  "cyan"
+)
 
 export const sizes = new Sizes()
 

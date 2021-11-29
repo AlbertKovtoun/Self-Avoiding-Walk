@@ -1,55 +1,40 @@
 import * as THREE from "three"
-import { Line2 } from "three/examples/jsm/lines/Line2"
-import { LineGeometry } from "three/examples/jsm/lines/LineGeometry"
-import { LineMaterial } from "three/examples/jsm/lines/LineMaterial"
-import * as GeometryUtils from "three/examples/jsm/utils/GeometryUtils"
+// import { Line2 } from "three/examples/jsm/lines/Line2"
+// import { LineGeometry } from "three/examples/jsm/lines/LineGeometry"
+// import { LineMaterial } from "three/examples/jsm/lines/LineMaterial"
+// import * as GeometryUtils from "three/examples/jsm/utils/GeometryUtils"
+
+import walkerVertexShader from "../../shaders/walker/vertex.glsl"
+import walkerFragmentShader from "../../shaders/walker/fragment.glsl"
 
 import { scene } from "./Experience"
 
 export class Walker {
-  constructor() {
+  constructor(
+    walkerStartPositionPoint1,
+    walkerStartPositionPoint2,
+    walkerStep,
+    walkerColor
+  ) {
     this.walker
-    this.i = 0
+    this.borderLimit = 5
+
+    this.walkerStartPositionPoint1 = walkerStartPositionPoint1
+    this.walkerStartPositionPoint2 = walkerStartPositionPoint2
+    this.walkerStep = walkerStep
+    this.walkerColor = walkerColor
 
     this.setWalker()
     this.walk()
   }
 
   setWalker() {
-    //?DUNNO
-    // // this.colors = [new THREE.Vector3(1, 0, 0)]
-
-    // this.walkerPoints = []
-    // this.walkerPoints.push(new THREE.Vector3(0, 0, 0))
-    // this.walkerPoints.push(new THREE.Vector3(0, 1, 0))
-    // this.walkerPoints.push(new THREE.Vector3(0, 1, 2))
-
-    // this.walkerGeometry = new LineGeometry()
-    // this.walkerGeometry.setPositions(this.walkerPoints)
-    // // this.walkerGeometry.setColors()
-
-    // this.walkerMaterial = new LineMaterial({
-    //   color: 0xff0000,
-    //   linewidth: 15,
-    //   // vertexColors: true,
-    //   // resolution: new THREE.Vector2(640, 480),
-    //   // dashed: true,
-    //   // alphaToCoverage: true,
-    // })
-
-    // this.walkerMaterial.resolution.set(window.innerWidth, window.innerHeight)
-    // this.walker = new Line2(this.walkerGeometry, this.walkerMaterial)
-    // this.walker.computeLineDistances()
-    // this.walker.scale.set(1, 1, 1)
-    // scene.add(this.walker)
-    // console.log(this.walkerMaterial)
-
     this.walkerPoints = []
-    this.walkerPoints.push(new THREE.Vector3(0, 0, 0))
-    this.walkerPoints.push(new THREE.Vector3(0, 0, -1))
+    this.walkerPoints.push(this.walkerStartPositionPoint1)
+    this.walkerPoints.push(this.walkerStartPositionPoint2)
 
     this.walkerMaterial = new THREE.LineBasicMaterial({
-      color: 0xff0000,
+      color: this.walkerColor,
     })
 
     this.walkerGeometry = new THREE.BufferGeometry().setFromPoints(
@@ -67,11 +52,16 @@ export class Walker {
     //Set next position
     let nextPosition = new THREE.Vector3(
       lastPosition.x,
-      lastPosition.y + 1,
+      lastPosition.y + this.walkerStep,
       lastPosition.z
     )
 
-    if (this.checkSelfCollision(nextPosition)) {
+    this.checkBorderCollision(nextPosition)
+
+    if (
+      this.checkSelfCollision(nextPosition) ||
+      this.checkBorderCollision(nextPosition)
+    ) {
       console.log("Collision!!!")
     } else {
       this.walkerPoints.push(nextPosition)
@@ -85,11 +75,16 @@ export class Walker {
     //Set next position
     let nextPosition = new THREE.Vector3(
       lastPosition.x,
-      lastPosition.y - 1,
+      lastPosition.y - this.walkerStep,
       lastPosition.z
     )
 
-    if (this.checkSelfCollision(nextPosition)) {
+    this.checkBorderCollision(nextPosition)
+
+    if (
+      this.checkSelfCollision(nextPosition) ||
+      this.checkBorderCollision(nextPosition)
+    ) {
       console.log("Collision!!!")
     } else {
       this.walkerPoints.push(nextPosition)
@@ -102,12 +97,17 @@ export class Walker {
 
     //Set next position
     let nextPosition = new THREE.Vector3(
-      lastPosition.x - 1,
+      lastPosition.x - this.walkerStep,
       lastPosition.y,
       lastPosition.z
     )
 
-    if (this.checkSelfCollision(nextPosition)) {
+    this.checkBorderCollision(nextPosition)
+
+    if (
+      this.checkSelfCollision(nextPosition) ||
+      this.checkBorderCollision(nextPosition)
+    ) {
       console.log("Collision!!!")
     } else {
       this.walkerPoints.push(nextPosition)
@@ -120,12 +120,17 @@ export class Walker {
 
     //Set next position
     let nextPosition = new THREE.Vector3(
-      lastPosition.x + 1,
+      lastPosition.x + this.walkerStep,
       lastPosition.y,
       lastPosition.z
     )
 
-    if (this.checkSelfCollision(nextPosition)) {
+    this.checkBorderCollision(nextPosition)
+
+    if (
+      this.checkSelfCollision(nextPosition) ||
+      this.checkBorderCollision(nextPosition)
+    ) {
       console.log("Collision!!!")
     } else {
       this.walkerPoints.push(nextPosition)
@@ -140,10 +145,15 @@ export class Walker {
     let nextPosition = new THREE.Vector3(
       lastPosition.x,
       lastPosition.y,
-      lastPosition.z - 1
+      lastPosition.z - this.walkerStep
     )
 
-    if (this.checkSelfCollision(nextPosition)) {
+    this.checkBorderCollision(nextPosition)
+
+    if (
+      this.checkSelfCollision(nextPosition) ||
+      this.checkBorderCollision(nextPosition)
+    ) {
       console.log("Collision!!!")
     } else {
       this.walkerPoints.push(nextPosition)
@@ -158,10 +168,15 @@ export class Walker {
     let nextPosition = new THREE.Vector3(
       lastPosition.x,
       lastPosition.y,
-      lastPosition.z + 1
+      lastPosition.z + this.walkerStep
     )
 
-    if (this.checkSelfCollision(nextPosition)) {
+    this.checkBorderCollision(nextPosition)
+
+    if (
+      this.checkSelfCollision(nextPosition) ||
+      this.checkBorderCollision(nextPosition)
+    ) {
       console.log("Collision!!!")
     } else {
       this.walkerPoints.push(nextPosition)
@@ -180,7 +195,18 @@ export class Walker {
     }
   }
 
-  checkBorderCollision() {}
+  checkBorderCollision(nextPosition) {
+    if (
+      nextPosition.x < -this.borderLimit ||
+      nextPosition.x > this.borderLimit ||
+      nextPosition.y < -this.borderLimit ||
+      nextPosition.y > this.borderLimit ||
+      nextPosition.z < -this.borderLimit ||
+      nextPosition.z > this.borderLimit
+    ) {
+      return true
+    }
+  }
 
   walk() {
     setInterval(() => {
