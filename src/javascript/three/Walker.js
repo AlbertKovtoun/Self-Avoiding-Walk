@@ -1,4 +1,3 @@
-import { wrap } from "gsap/all"
 import * as THREE from "three"
 import { Line2 } from "three/examples/jsm/lines/Line2"
 import { LineGeometry } from "three/examples/jsm/lines/LineGeometry"
@@ -72,7 +71,7 @@ export class Walker {
       lastPosition.z
     )
 
-    if (this.checkCollision(nextPosition)) {
+    if (this.checkSelfCollision(nextPosition)) {
       console.log("Collision!!!")
     } else {
       this.walkerPoints.push(nextPosition)
@@ -90,7 +89,7 @@ export class Walker {
       lastPosition.z
     )
 
-    if (this.checkCollision(nextPosition)) {
+    if (this.checkSelfCollision(nextPosition)) {
       console.log("Collision!!!")
     } else {
       this.walkerPoints.push(nextPosition)
@@ -108,7 +107,7 @@ export class Walker {
       lastPosition.z
     )
 
-    if (this.checkCollision(nextPosition)) {
+    if (this.checkSelfCollision(nextPosition)) {
       console.log("Collision!!!")
     } else {
       this.walkerPoints.push(nextPosition)
@@ -126,7 +125,7 @@ export class Walker {
       lastPosition.z
     )
 
-    if (this.checkCollision(nextPosition)) {
+    if (this.checkSelfCollision(nextPosition)) {
       console.log("Collision!!!")
     } else {
       this.walkerPoints.push(nextPosition)
@@ -144,7 +143,7 @@ export class Walker {
       lastPosition.z - 1
     )
 
-    if (this.checkCollision(nextPosition)) {
+    if (this.checkSelfCollision(nextPosition)) {
       console.log("Collision!!!")
     } else {
       this.walkerPoints.push(nextPosition)
@@ -162,7 +161,7 @@ export class Walker {
       lastPosition.z + 1
     )
 
-    if (this.checkCollision(nextPosition)) {
+    if (this.checkSelfCollision(nextPosition)) {
       console.log("Collision!!!")
     } else {
       this.walkerPoints.push(nextPosition)
@@ -173,13 +172,15 @@ export class Walker {
     this.randomDirection = Math.round(Math.random() * 5)
   }
 
-  checkCollision(nextPosition) {
+  checkSelfCollision(nextPosition) {
     for (let i = 0; i < this.walkerPoints.length; i++) {
       if (this.walkerPoints[i].equals(nextPosition)) {
         return true
       }
     }
   }
+
+  checkBorderCollision() {}
 
   walk() {
     setInterval(() => {
@@ -207,6 +208,6 @@ export class Walker {
       }
 
       this.walkerGeometry.setFromPoints(this.walkerPoints)
-    }, 50000)
+    }, 50)
   }
 }

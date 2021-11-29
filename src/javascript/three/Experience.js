@@ -14,8 +14,8 @@ export const canvas = document.querySelector("canvas.webgl")
 
 export const scene = new THREE.Scene()
 
-const gridHelper = new THREE.GridHelper(10, 10)
-scene.add(gridHelper)
+// const gridHelper = new THREE.GridHelper(10, 10)
+// scene.add(gridHelper)
 
 export const borders = new Borders()
 
